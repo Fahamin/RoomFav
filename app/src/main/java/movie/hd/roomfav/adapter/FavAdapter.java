@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import movie.hd.roomfav.MainActivity;
 import movie.hd.roomfav.R;
 import movie.hd.roomfav.model.FavModel;
 
@@ -37,11 +39,18 @@ public class FavAdapter extends RecyclerView.Adapter<MainAdapter.MainHolder> {
     @Override
     public void onBindViewHolder(@NonNull MainAdapter.MainHolder holder, int position) {
 
-       FavModel favModel = list.get(position);
+       final FavModel favModel = list.get(position);
 
         holder.tv.setText(favModel.getName());
         holder.titletv.setText(favModel.getTitle());
 
+        holder.fav_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.favDatabase.favoriteDao().delete(favModel);
+                Toast.makeText(context, "remove", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
